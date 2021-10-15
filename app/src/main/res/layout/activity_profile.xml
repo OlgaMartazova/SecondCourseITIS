@@ -15,6 +15,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="20dp"
         />
+
     <ImageButton
         android:id="@+id/btn_add_person"
         android:layout_width="wrap_content"
@@ -59,6 +60,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="48dp"
         />
+
+    <ImageButton
+        android:id="@+id/btn_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_outline_share_24"
+        android:outlineSpotShadowColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/secondPanel"
+        app:layout_constraintStart_toStartOf="@id/btn_more"
+        app:layout_constraintEnd_toEndOf="@id/btn_more"
+        android:layout_marginTop="10dp">
+    </ImageButton>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_avatar"
