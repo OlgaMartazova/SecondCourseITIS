@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.btnHome.setOnClickListener {
-            Log.e("LOG", "btnHome нажата")
             supportFragmentManager.beginTransaction().run {
                 setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
                 replace(R.id.container, HomeFragment())
@@ -34,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnSearch.setOnClickListener {
-            Log.e("LOG", "btnSearch нажата")
             supportFragmentManager.beginTransaction().run {
                 setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
                 replace(R.id.container, SearchFragment())
@@ -43,7 +41,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.btnAdd.setOnClickListener {
-            Log.e("LOG", "btnAdd нажата")
             supportFragmentManager.beginTransaction().run {
                 setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
                 replace(R.id.container, AddFragment())
@@ -52,7 +49,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.btnInbox.setOnClickListener {
-            Log.e("LOG", "btnInbox нажата")
             supportFragmentManager.beginTransaction().run {
                 setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
                 replace(R.id.container, MoveFragment())
@@ -61,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.btnMe.setOnClickListener {
-            Log.e("LOG", "btnMe нажата")
             supportFragmentManager.beginTransaction().run {
                 setCustomAnimations(R.animator.enter_from_right, R.animator.exit_to_left, R.animator.enter_from_left, R.animator.exit_to_right)
                 replace(R.id.container, ProfileFragment())
