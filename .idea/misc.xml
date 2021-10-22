@@ -3,7 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/activity_main.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_add_24.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_add_56.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_home_56.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_move_to_inbox_24.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_person_24.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/drawable/ic_outline_search_56.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/fragment_add.xml" value="0.209375" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/fragment_home.xml" value="0.209375" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/fragment_move.xml" value="0.209375" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/fragment_profile.xml" value="0.209375" />
+        <entry key="..\:/Users/Olga/AndroidStudioProjects/SecondCourseITIS/app/src/main/res/layout/fragment_search.xml" value="0.209375" />
       </map>
     </option>
   </component>
