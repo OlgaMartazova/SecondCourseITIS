@@ -4,13 +4,13 @@
     <item
         android:id="@+id/fragment1"
         android:icon="@drawable/ic_outline_filter_1_24"
-        android:title="first"/>
+        android:title="@string/profile"/>
     <item
         android:id="@+id/fragment2"
         android:icon="@drawable/ic_outline_filter_2_24"
-        android:title="second" />
+        android:title="@string/windows" />
     <item
         android:id="@+id/fragment3"
         android:icon="@drawable/ic_baseline_filter_3_24"
-        android:title="third"/>
+        android:title="@string/houses"/>
 </menu>

@@ -23,8 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_title"
-            />
+            app:layout_constraintBottom_toTopOf="@id/tv_title"/>
 
         <TextView
             android:id="@+id/tv_title"
