@@ -7,11 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
 import com.itis.secondcourseitis.databinding.ActivityClockBinding
-import java.lang.Integer.parseInt
 import java.util.*
 
 class ClockActivity: AppCompatActivity() {
@@ -29,36 +26,28 @@ class ClockActivity: AppCompatActivity() {
 
         service = NotificationService(this)
 
-//        val receiver = ComponentName(applicationContext, BootReceiver::class.java)
-//
-//        applicationContext.packageManager.setComponentEnabledSetting(
-//            receiver,
-//            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-//            // or PackageManager.COMPONENT_ENABLED_STATE_DISABLED to disable it
-//            PackageManager.DONT_KILL_APP
-//        )
+        //похоже не работает(
+        val receiver = ComponentName(applicationContext, BootReceiver::class.java)
 
+        applicationContext.packageManager.setComponentEnabledSetting(
+            receiver,
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        var hour: String
+        var minute: String
 
         binding.btnStart.setOnClickListener {
-            alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-            pendingIntent = Intent(this, Receiver::class.java).let {
-                    intent ->  PendingIntent.getBroadcast(this, 0, intent, 0)
-            }
-            val hour = binding.etHour.text.toString()
-            val minute = binding.etMinute.text.toString()
+            hour = binding.etHour.text.toString()
+            minute = binding.etMinute.text.toString()
             setTime(hour, minute)
-            alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
+            setClock(this)
         }
 
         binding.btnStop.setOnClickListener {
-            alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-            pendingIntent = Intent(this, Receiver::class.java).let {
-                    intent ->  PendingIntent.getBroadcast(this, 0, intent, 0)
-            }
+//            intent = Intent(this, Receiver::class.java)
+//            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
             alarmManager.cancel(pendingIntent)
         }
     }
@@ -78,5 +67,16 @@ class ClockActivity: AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         service = null
+    }
+
+    fun setClock(context: Context) {
+        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        intent = Intent(this, Receiver::class.java)
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
+        alarmManager.set(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
     }
 }
