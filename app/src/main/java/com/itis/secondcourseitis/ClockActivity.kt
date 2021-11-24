@@ -26,15 +26,6 @@ class ClockActivity: AppCompatActivity() {
 
         service = NotificationService(this)
 
-        //похоже не работает(
-        val receiver = ComponentName(applicationContext, BootReceiver::class.java)
-
-        applicationContext.packageManager.setComponentEnabledSetting(
-            receiver,
-            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-            PackageManager.DONT_KILL_APP
-        )
-
         var hour: String
         var minute: String
 
@@ -42,7 +33,15 @@ class ClockActivity: AppCompatActivity() {
             hour = binding.etHour.text.toString()
             minute = binding.etMinute.text.toString()
             setTime(hour, minute)
-            setClock(this)
+
+            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            intent = Intent(this, Receiver::class.java)
+            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0)
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
         }
 
         binding.btnStop.setOnClickListener {
@@ -54,6 +53,8 @@ class ClockActivity: AppCompatActivity() {
 
     private fun setTime(hour: String, minute: String) {
         calendar = Calendar.getInstance()
+        calendar.time = Date(System.currentTimeMillis())
+        calendar.timeInMillis = System.currentTimeMillis()
         if (hour != "") {
             calendar.set(Calendar.HOUR_OF_DAY, hour.toInt())
         }
@@ -67,16 +68,5 @@ class ClockActivity: AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         service = null
-    }
-
-    fun setClock(context: Context) {
-        alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        intent = Intent(this, Receiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-        alarmManager.set(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
     }
 }
