@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_list">
+
+    <fragment
+        android:id="@+id/fragment_list"
+        android:name="com.itis.secondcourseitis.fragment.TracksFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_track_list">
+        <action
+            android:id="@+id/action_fragment_list_to_fragment_detail"
+            app:destination="@id/fragment_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_detail"
+        android:name="com.itis.secondcourseitis.fragment.TrackInfoFragment"
+        android:label="fragment_second"
+        tools:layout="@layout/fragment_track_details">
+        <argument
+            android:name="idTrack"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>
