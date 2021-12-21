@@ -3,6 +3,8 @@ package com.itis.secondcourseitis
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.itis.secondcourseitis.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,5 +18,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         controller = findController(R.id.container)
+        binding.bnvMain.setupWithNavController(controller)
     }
 }
