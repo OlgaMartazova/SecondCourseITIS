@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">SecondCourseITIS</string>
+    <string name="app_name">The best player</string>
+    <string name="notification_channel_title">First channel</string>
+    <string name="notification_channel_desc">my channel is the best because I wrote it</string>
 </resources>
