@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SecondCourseITIS</string>
+    <string name="notification_channel_title">First channel</string>
+    <string name="notification_channel_desc">description about my channel</string>
 </resources>
