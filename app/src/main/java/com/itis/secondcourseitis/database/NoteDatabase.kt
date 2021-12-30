@@ -25,7 +25,6 @@ abstract class NoteDatabase : RoomDatabase() {
                     NoteDatabase::class.java,
                     DATABASE_NAME
                 )
-                    .allowMainThreadQueries()
                     .build()
                 hasInstance = true
             }

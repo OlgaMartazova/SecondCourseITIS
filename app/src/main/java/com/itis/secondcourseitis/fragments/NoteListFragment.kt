@@ -5,19 +5,19 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
-import com.itis.secondcourseitis.SpaceItemDecorator
-import com.itis.secondcourseitis.database.NoteDatabase
-import com.itis.secondcourseitis.databinding.FragmentNoteListBinding
-import com.itis.secondcourseitis.recycler.NoteListAdapter
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.itis.secondcourseitis.ExtConstants.NOTE_ID
 import com.itis.secondcourseitis.R
+import com.itis.secondcourseitis.SpaceItemDecorator
 import com.itis.secondcourseitis.database.NoteDao
+import com.itis.secondcourseitis.database.NoteDatabase
+import com.itis.secondcourseitis.databinding.FragmentNoteListBinding
 import com.itis.secondcourseitis.model.Note
+import com.itis.secondcourseitis.recycler.NoteListAdapter
+import kotlinx.coroutines.*
 
 class NoteListFragment : Fragment() {
     private lateinit var binding: FragmentNoteListBinding
@@ -25,6 +25,7 @@ class NoteListFragment : Fragment() {
     private lateinit var noteDatabase: NoteDatabase
     private lateinit var noteDao: NoteDao
 
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -64,7 +65,13 @@ class NoteListFragment : Fragment() {
                 navigate(null)
             }
         }
-        update(noteDao.findAllNotes())
+        coroutineScope.launch {
+            update(
+                withContext(coroutineScope.coroutineContext) {
+                    noteDao.findAllNotes()
+                }
+            )
+        }
     }
 
     private fun navigate(id: Int?) {
@@ -82,8 +89,14 @@ class NoteListFragment : Fragment() {
     }
 
     private fun deleteNote(id: Int) {
-        noteDao.deleteNoteById(id)
-        update(noteDao.findAllNotes())
+        coroutineScope.launch { noteDao.deleteNoteById(id) }
+        coroutineScope.launch {
+            update(
+                withContext(coroutineScope.coroutineContext) {
+                    noteDao.findAllNotes()
+                }
+            )
+        }
     }
 
     private fun update(notes: List<Note>) {
@@ -105,8 +118,19 @@ class NoteListFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         NavigationUI.onNavDestinationSelected(item, findNavController())
-        noteDao.deleteAllNotes()
-        update(noteDao.findAllNotes())
+        coroutineScope.launch { noteDao.deleteAllNotes() }
+        coroutineScope.launch {
+            update(
+                withContext(coroutineScope.coroutineContext) {
+                    noteDao.findAllNotes()
+                }
+            )
+        }
         return true
+    }
+
+    override fun onDestroy() {
+        coroutineScope.cancel()
+        super.onDestroy()
     }
 }
