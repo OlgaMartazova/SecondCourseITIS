@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">SecondCourseITIS</string>
+    <string name="zero_notes">Для начала работы создайте первую цель</string>
+    <string name="delete">delete all notes</string>
+    <string name="set_date">set date</string>
+    <string name="save_note">save note</string>
+    <string name="description">description</string>
+    <string name="title">title</string>
 </resources>
