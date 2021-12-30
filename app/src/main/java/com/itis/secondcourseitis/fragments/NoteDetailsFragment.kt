@@ -1,13 +1,8 @@
 package com.itis.secondcourseitis.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,10 +12,10 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
+import com.google.android.material.snackbar.Snackbar
 import com.itis.secondcourseitis.ExtConstants.NOTE_ID
 import com.itis.secondcourseitis.R
 import com.itis.secondcourseitis.database.NoteDao
@@ -28,8 +23,8 @@ import com.itis.secondcourseitis.database.NoteDatabase
 import com.itis.secondcourseitis.databinding.FragmentNoteDetailsBinding
 import com.itis.secondcourseitis.model.Note
 import com.itis.secondcourseitis.recycler.DateConverter.convertDate
+import kotlinx.coroutines.*
 import java.util.*
-import com.google.android.material.snackbar.Snackbar
 
 class NoteDetailsFragment : Fragment() {
     private lateinit var binding: FragmentNoteDetailsBinding
@@ -37,8 +32,10 @@ class NoteDetailsFragment : Fragment() {
     private lateinit var noteDao: NoteDao
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Main)
+
     private var noteId: Int? = null
-    private var note: Note? = null
+    private lateinit var note: Note
 
     private var calendarDate: Date = Date()
 
@@ -71,20 +68,29 @@ class NoteDetailsFragment : Fragment() {
 
         if (arguments?.containsKey(NOTE_ID) == true) {
             arguments?.getInt(NOTE_ID)?.let {
-                note = noteDao.findNoteById(it)
-                noteId = it
-                calendarDate = noteDao.findNoteById(it).date
-            }
-
-            note?.let {
-                with(binding) {
-                    etTitle.setText(it.title)
-                    etDesc.setText(it.desc)
-                    tvDateCreated.text = "Date created: ${convertDate(it.dateCreated)}"
-                    tvLocation.text = "Location: ${it.longitude}, ${it.latitude}"
+                coroutineScope.launch {
+                    note = withContext(coroutineScope.coroutineContext) {
+                        noteDao.findNoteById(it)
+                    }
                 }
+                noteId = it
+                //deferred finished
+                coroutineScope.launch {
+                    calendarDate =
+                        withContext(coroutineScope.coroutineContext) { note.date }
+                }
+
+                with(binding) {
+                    etTitle.setText(note.title)
+                    etDesc.setText(note.desc)
+                    tvDateCreated.text = "Date created: ${convertDate(note.dateCreated)}"
+                    tvLocation.text = "Location: ${note.longitude}, ${note.latitude}"
+                }
+
+                binding.tvDate.text = convertDate(
+                    note.date
+                )
             }
-            binding.tvDate.text = convertDate(note?.date ?: Date())
         }
 
         binding.btnSetDate.setOnClickListener {
@@ -92,9 +98,7 @@ class NoteDetailsFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            getAcceptedNote().let {
-                noteDao.saveNote(it)
-            }
+            saveNote(getAcceptedNote())
             findNavController().navigate(
                 R.id.action_noteDetailsFragment_to_noteListFragment
             )
@@ -188,5 +192,16 @@ class NoteDetailsFragment : Fragment() {
             val latitude = permittedLatitude
             return Note(id, title, desc, date, dateCreated, longitude, latitude)
         }
+    }
+
+    private fun saveNote(note: Note) {
+        coroutineScope.launch {
+            noteDao.saveNote(note)
+        }
+    }
+
+    override fun onDestroy() {
+        coroutineScope.cancel()
+        super.onDestroy()
     }
 }

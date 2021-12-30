@@ -9,17 +9,17 @@ import com.itis.secondcourseitis.model.Note
 @Dao
 interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveNote(note: Note)
+    suspend fun saveNote(note: Note)
 
     @Query("DELETE FROM notes WHERE id = :id")
-    fun deleteNoteById(id: Int)
+    suspend fun deleteNoteById(id: Int)
 
     @Query("DELETE FROM notes")
-    fun deleteAllNotes()
+    suspend fun deleteAllNotes()
 
     @Query("SELECT * FROM notes WHERE id = :id")
-    fun findNoteById(id: Int): Note
+    suspend fun findNoteById(id: Int): Note
 
     @Query("SELECT * FROM notes")
-    fun findAllNotes(): List<Note>
+    suspend fun findAllNotes(): List<Note>
 }
